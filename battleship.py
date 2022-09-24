@@ -7,7 +7,7 @@ emo_sea = '🌊'
 strike_emo = '💥'
 cold_shot = '⚫'
 sunk_emo = '☠️'
-emos_plus = ['🏴', '⚜️', '☠️', '🗡️', '🛡️', '💥', '✈️', '📡', '🚢', '⚔️', '🛩️', '🎯', '⚪','💦', '⚫', '💯', '🎯', '😬', '🤕', '😧', '😰', '😒', '🥳', '🥴', '😵']
+emos_plus = ['🏴', '⚜️', '☠️', '🗡️', '🛡️', '💥', '✈️', '📡', '🚢', '⚔️', '🛩️', '🎯', '⚪','💦', '⚫', '💯', '🎯', '😬', '🤕', '😧', '😰', '😒', '🥳', '🥴', '😵', '⚠️']
 ships = {"p": {"name": "Porte-avion", "size": 5, "emo": '✈️'}, "c": {"name": "Croiseur", "size": 4, "emo": '⚔️'}, "s": {"name": "Sous-Marin", "size": 3, "emo": '⚜️'}, "t": {"name": "Torpilleur", "size": 2, "emo": '🛡️'}}
 algo_ships = {"p": {"name": "Porte-avion", "size": 5, "emo": '🛩️'}, "c": {"name": "Croiseur", "size": 4, "emo": '⚔️'}, "s": {"name": "Sous-Marin", "size": 3, "emo": '🏴'}, "t": {"name": "Torpilleur", "size": 2, "emo": '🗡️'}}
 your_emos = ['⚔️', '✈️', '🛡️', '⚜️']
@@ -82,120 +82,86 @@ def str_to_int(stg):
 
 
 def place_your_ships(grid):
-	S = []
-	while len(S) < 4:
+	SHIPS = []
+	while len(SHIPS) < 4:
 		print("Bateaux à placer: ")
 		for k, v in ships.items():
-			if k not in S:
+			if k not in SHIPS:
 				print(f"{ships[k]['name']} '{k}', taille du bâtiment: {ships[k]['size']}", end='  ')
 				print("")
 		print("\n")
 		while True:
 			input_ship = input("Quel bateau voulez vous placer ? ").lower()
 			if ships.get(input_ship):
-				if input_ship not in S:
+				if input_ship not in SHIPS:
 					print(f"{ships[input_ship]['name']} sélectionné, taille du bâtiment: {ships[input_ship]['size']}")
 					break
 				else:
-					print("Bateau dejà placé ! chosissez en un autre ")
+					print("⚠️ Bateau dejà placé ! chosissez en un autre ")
 			else:
-				print("Entrez la première lettre du nom du navire")
+				print("⚠️ Entrez la première lettre du nom du navire")
 
 		input_direction = input("Horzontalement ou verticalement ? 'h' horizontalement, 'v' verticalement : ")
 		while True:
 			if input_direction in ['h', 'v']:
 				break
 			else:
-				input_direction = input("Erreur ! Entrez 'h' ou 'v' : ")
+				input_direction = input("⚠️ Erreur ! Entrez 'h' ou 'v' : ")
 
-		while True:
-			try:
-				input_row = int(input("Sur quelle ligne ? Entrez un chiffre entre 1 et 10 compris: "))
-				if int(input_row) in range(1, 11):
-					input_row = int(input_row)
-					break
-				else:
-					continue
-			except:
-				print("Erreur ! Entrez un chiffre !!! ")
-				continue
-			
-		while True:
-			input_col = letter_to_int(input("Sur quelle colonne ? Entrez une lettre de A à J compris: "))
-			if input_col in range(1, 11):
-				break
-			else:
-				continue
 
 		if input_direction.lower() == "h":
 			while True:
-				count = 0
-				if input_col + ships[input_ship]["size"] < len(grid):
-					for i in range(ships[input_ship]["size"]):
-						if (grid[input_row][input_col+i] == emo_sea) and (grid[input_row +1][input_col+i] == emo_sea) and (grid[input_row -1][input_col+i] == emo_sea) and (grid[input_row][input_col+i-1] == emo_sea) and (grid[input_row][input_col+i+1] == emo_sea):
-							count +=1
-					if count == ships[input_ship]["size"]:
-						for i in range(ships[input_ship]["size"]):
-							grid[input_row][input_col +i] = ships[input_ship]["emo"]
-						break
-					else:
-						print("Deja pris ou trop prêt d'un autre de vos navires")
-						while True:
-							try:
-								input_row = int(input("Sur quelle ligne ? Entrez un chiffre entre 1 et 10 compris: "))
-								if int(input_row) in range(1, 11):
-									input_row = int(input_row)
-									break
-								else:
-									continue
-							except:
-								print("Erreur ! Entrez un chiffre !!! ")					
-						while True:
-							input_col = letter_to_int(input("Sur quelle colonne ? Entrez une lettre de A à J compris: "))
-							if input_col in range(1, 11):
+				try:
+					input_row = int(input("Sur quelle ligne ? Entrez un chiffre entre 1 et 10 compris: "))
+				except:
+					print("⚠️ Erreur ! Entrez un chiffre !!! ")
+					continue
+				if int(input_row) in range(1, 11):
+					input_row = int(input_row)
+					input_col = letter_to_int(input("Sur quelle colonne ? Entrez une lettre de A à J compris: "))
+					if input_col in range(1, 11):					
+						count = 0
+						if input_col + ships[input_ship]["size"] < len(grid):
+							for i in range(ships[input_ship]["size"]):
+								if (grid[input_row][input_col+i] == emo_sea) and (grid[input_row +1][input_col+i] == emo_sea) and (grid[input_row -1][input_col+i] == emo_sea) and (grid[input_row][input_col+i-1] == emo_sea) and (grid[input_row][input_col+i+1] == emo_sea):
+									count +=1
+							if count == ships[input_ship]["size"]:
+								for i in range(ships[input_ship]["size"]):
+									grid[input_row][input_col +i] = ships[input_ship]["emo"]
 								break
 							else:
-								continue
-				else:
-					print("Vous dépassez les limites de la grille, vous devez placer la tête du bâtiment, qui s'étale ensuite de sa longueur vers la droite")
-					input_col = letter_to_int(input("sur quelle colonne ? Entrez une lettre de A à J compris: "))
+								print("⚠️ Deja pris ou trop prêt d'un autre de vos navires")
+						else:
+							print("⚠️ Vous dépassez les limites de la grille, vous devez placer la tête du bâtiment, qui s'étale ensuite de sa longueur vers la droite")
+						
 		
 		elif input_direction.lower() == "v":
 			while True:
-				count = 0
-				if input_row + ships[input_ship]["size"] < len(grid):
-					for i in range(ships[input_ship]["size"]):
-						if (grid[input_row +i][input_col] == emo_sea) and (grid[input_row +i][input_col+1] == emo_sea) and (grid[input_row +i][input_col-1] == emo_sea) and (grid[input_row +i -1][input_col] == emo_sea) and (grid[input_row +i +1][input_col] == emo_sea):
-							count +=1
-					if count == ships[input_ship]["size"]:
-						for i in range(ships[input_ship]["size"]):
-							grid[input_row +i][input_col] = ships[input_ship]["emo"]
-						break
-					else:
-						print("Deja pris ou trop prêt d'un autre de vos navires")
-						while True:
-							try:
-								input_row = int(input("Sur quelle ligne ? Entrez un chiffre entre 1 et 10 compris: "))
-								if int(input_row) in range(1, 11):
-									input_row = int(input_row)
-									break
-								else:
-									continue
-							except:
-								print("Erreur ! Entrez un chiffre !!! ")
-						while True:
-							input_col = letter_to_int(input("Sur quelle colonne ? Entrez une lettre de A à J compris: "))
-							if input_col in range(1, 11):
+				try:
+					input_row = int(input("Sur quelle ligne ? Entrez un chiffre entre 1 et 10 compris: "))
+				except:
+					print("⚠️ Erreur ! Entrez un chiffre !!! ")
+					continue
+				if int(input_row) in range(1, 11):
+					input_row = int(input_row)
+					input_col = letter_to_int(input("Sur quelle colonne ? Entrez une lettre de A à J compris: "))
+					if input_col in range(1, 11):
+						count = 0
+						if input_row + ships[input_ship]["size"] < len(grid):
+							for i in range(ships[input_ship]["size"]):
+								if (grid[input_row +i][input_col] == emo_sea) and (grid[input_row +i][input_col+1] == emo_sea) and (grid[input_row +i][input_col-1] == emo_sea) and (grid[input_row +i -1][input_col] == emo_sea) and (grid[input_row +i +1][input_col] == emo_sea):
+									count +=1
+							if count == ships[input_ship]["size"]:
+								for i in range(ships[input_ship]["size"]):
+									grid[input_row +i][input_col] = ships[input_ship]["emo"]
 								break
 							else:
-								continue
-
-				else:
-					print("Vous dépassez les limites de la grille, vous devez placer la tête du bâtiment, qui s'étale ensuite de sa longueur vers le bas")
-					input_row = int(input("sur quelle ligne ? Entrez un chiffre entre 1 et 10 compris: "))
+								print("⚠️ Deja pris ou trop prêt d'un autre de vos navires")
+						else:
+							print("⚠️ Vous dépassez les limites de la grille, vous devez placer la tête du bâtiment, qui s'étale ensuite de sa longueur vers le bas")
 		
-		if input_ship not in S:
-			S.append(input_ship)
+		if input_ship not in SHIPS:
+			SHIPS.append(input_ship)
 
 		print_grid(grid)
 
@@ -303,9 +269,9 @@ def you_play(grid_algo, grid_attack):
 						print("Coup dans l'eau ! 😒")
 						return grid_attack
 			else:
-				print("Erreur ! Entrez une lettre de A à J compris")
+				print("⚠️ Erreur ! Entrez une lettre de A à J compris")
 		else:
-			print("Erreur ! Entrez un chiffre entre 1 et 10 compris")
+			print("⚠️ Erreur ! Entrez un chiffre entre 1 et 10 compris")
 
 
 def check_ennemy_defeat(grid_attack):
@@ -315,7 +281,7 @@ def check_ennemy_defeat(grid_attack):
 			if grid_attack[x][y] == sunk_emo:
 				count_sunk +=1
 	if count_sunk == 14:
-		print("\nVictoire ! Vous avez coulé tous les navires ennemis 🥳\n")
+		print("\nVICTOIRE ! Vous avez coulé tous les navires ennemis 🥳\n")
 		return 'bye'
 
 
@@ -326,7 +292,7 @@ def check_your_defeat(grid):
 			if grid[x][y] in your_emos:
 				count_your_emos +=1
 	if count_your_emos == 0:
-		print("\nDéfaite ! Votre dernier navire a coulé 🥴\n")
+		print("\nDÉFAITE ! Votre dernier navire a coulé 🥴\n")
 		return 'bye'
 	else:
 		pass
@@ -358,7 +324,6 @@ def algo_player(grid):
 									# print("no strikes around")
 
 									if (grid[x+1][y] != cold_shot):
-										# print("here first strike !")
 										if grid[x+1][y] == ships[bato[-1]]['emo']:
 											bato.append(bato[-1])
 											coord_strike.append([x+1, y])
