@@ -1,11 +1,13 @@
 import random
+import time
+from ascii import title, warship_pic
 
 
 emo_sea = '🌊'
 strike_emo = '💥'
 cold_shot = '⚫'
 sunk_emo = '☠️'
-emos_plus = ['🏴', '⚜️', '☠️', '🗡️', '🛡️', '💥', '✈️', '📡', '🚢', '⚔️', '🛩️', '🎯', '⚪','💦', '⚫']
+emos_plus = ['🏴', '⚜️', '☠️', '🗡️', '🛡️', '💥', '✈️', '📡', '🚢', '⚔️', '🛩️', '🎯', '⚪','💦', '⚫', '💯', '🎯', '😬', '🤕', '😧', '😰', '😒', '🥳', '🥴', '😵']
 ships = {"p": {"name": "Porte-avion", "size": 5, "emo": '✈️'}, "c": {"name": "Croiseur", "size": 4, "emo": '⚔️'}, "s": {"name": "Sous-Marin", "size": 3, "emo": '⚜️'}, "t": {"name": "Torpilleur", "size": 2, "emo": '🛡️'}}
 algo_ships = {"p": {"name": "Porte-avion", "size": 5, "emo": '🛩️'}, "c": {"name": "Croiseur", "size": 4, "emo": '⚔️'}, "s": {"name": "Sous-Marin", "size": 3, "emo": '🏴'}, "t": {"name": "Torpilleur", "size": 2, "emo": '🗡️'}}
 your_emos = ['⚔️', '✈️', '🛡️', '⚜️']
@@ -149,14 +151,14 @@ def place_your_ships(grid):
 							except:
 								print("Erreur ! Entrez un chiffre !!! ")					
 						while True:
-							input_col = letter_to_int(input("Sur quelle colonne ? Entrez un chiffre une lettre de A à J compris: "))
+							input_col = letter_to_int(input("Sur quelle colonne ? Entrez une lettre de A à J compris: "))
 							if input_col in range(1, 11):
 								break
 							else:
 								continue
 				else:
 					print("Vous dépassez les limites de la grille, vous devez placer la tête du bâtiment, qui s'étale ensuite de sa longueur vers la droite")
-					input_col = letter_to_int(input("sur quelle colonne ? Entrez un chiffre une lettre de A à J compris: "))
+					input_col = letter_to_int(input("sur quelle colonne ? Entrez une lettre de A à J compris: "))
 		
 		elif input_direction.lower() == "v":
 			while True:
@@ -182,7 +184,7 @@ def place_your_ships(grid):
 							except:
 								print("Erreur ! Entrez un chiffre !!! ")
 						while True:
-							input_col = letter_to_int(input("Sur quelle colonne ? Entrez un chiffre une lettre de A à J compris: "))
+							input_col = letter_to_int(input("Sur quelle colonne ? Entrez une lettre de A à J compris: "))
 							if input_col in range(1, 11):
 								break
 							else:
@@ -217,7 +219,7 @@ def make_opponent_grid():
 							grid_algo[random_row +i][random_col] = algo_ships[k]['emo']
 						break
 				else:
-					print("dépassement des limites de la grille, ou bien l'espace est deja pris")
+					# print("dépassement des limites de la grille, ou bien l'espace est deja pris")
 					random_row = random.randint(1, 8)
 
 		elif random_dir == 'h':
@@ -234,7 +236,7 @@ def make_opponent_grid():
 							grid_algo[random_row][random_col +i] = algo_ships[k]['emo']
 						break
 				else:
-					print("dépassement des limites de la grille, ou bien l'espace est deja pris")
+					# print("dépassement des limites de la grille, ou bien l'espace est deja pris")
 					random_col = random.randint(1, 10)
 	
 	return grid_algo
@@ -252,12 +254,12 @@ def you_play(grid_algo, grid_attack):
 	while True:
 		input_row = str_to_int(input("Sur quelle ligne voulez-vous tirer ? Entrez un chiffre entre 1 et 10 compris: "))
 		if input_row in range(1, 11):
-			input_col = letter_to_int(input("Sur quelle colonne ? Entrez un chiffre une lettre de A à J compris: "))
+			input_col = letter_to_int(input("Sur quelle colonne ? Entrez une lettre de A à J compris: "))
 			if input_col in range(1, 11):
 				for k, v in algo_ships.items():
 					if grid_algo[input_row][input_col] == algo_ships[k]["emo"]:
 						grid_attack[input_row][input_col] = strike_emo
-						print(f"\n{algo_ships[k]['name']} ennemi touché !\n")
+						print(f"\n{algo_ships[k]['name']} ennemi touché ! 🎯")
 
 						# print_grid(grid_attack)
 						count_s = 0
@@ -275,9 +277,9 @@ def you_play(grid_algo, grid_attack):
 								if coord_s[x][1] == coord_s[x+1][1]:
 									if count_s == algo_ships[k]['size']:
 										for i in range(algo_ships[k]['size']):
-											grid_attack[coord_s[i][0]][coord_s[i][1]] = sunk_emo
-										print(f"{algo_ships[k]['name']} ennemi coulé")
+											grid_attack[coord_s[i][0]][coord_s[i][1]] = sunk_emo										
 										print_grid(grid_attack)
+										print(f"\n{algo_ships[k]['name']} ennemi coulé ! 💯")
 										if check_ennemy_defeat(grid_attack) == 'bye':
 											return 'end'
 										return grid_attack
@@ -285,8 +287,8 @@ def you_play(grid_algo, grid_attack):
 									if count_s == algo_ships[k]['size']:
 										for i in range(algo_ships[k]['size']):
 											grid_attack[coord_s[i][0]][coord_s[i][1]] = sunk_emo
-										print(f"{algo_ships[k]['name']} ennemi coulé")
 										print_grid(grid_attack)
+										print(f"\n{algo_ships[k]['name']} ennemi coulé ! 💯")
 										if check_ennemy_defeat(grid_attack) == 'bye':
 											return 'end'
 										return grid_attack					
@@ -298,12 +300,12 @@ def you_play(grid_algo, grid_attack):
 					if (grid_algo[input_row][input_col] != algo_ships[k]["emo"]) and (grid_algo[input_row][input_col] != strike_emo):
 						grid_attack[input_row][input_col] = cold_shot
 						print_grid(grid_attack)
-						print("\nCoup dans l'eau !\n")
+						print("Coup dans l'eau ! 😒")
 						return grid_attack
 			else:
-				print("Erreur ! Entrez une lettre de A à J compris: ")
+				print("Erreur ! Entrez une lettre de A à J compris")
 		else:
-			print("Erreur ! Entrez un chiffre entre 1 et 10 compris: ")
+			print("Erreur ! Entrez un chiffre entre 1 et 10 compris")
 
 
 def check_ennemy_defeat(grid_attack):
@@ -313,18 +315,18 @@ def check_ennemy_defeat(grid_attack):
 			if grid_attack[x][y] == sunk_emo:
 				count_sunk +=1
 	if count_sunk == 14:
-		print("\nVictoire! Vous avez coulé tous les navires ennemis\n")
+		print("\nVictoire ! Vous avez coulé tous les navires ennemis 🥳\n")
 		return 'bye'
 
 
 def check_your_defeat(grid):
-	count_algo_emos = 0
+	count_your_emos = 0
 	for x in range(1, 11):
 		for y in range(1, 11):
-			if grid[x][y] in algo_emos:
-				count_algo_emos +=1
-	if count_algo_emos == 0:
-		print("\nDéfaite ! Votre dernier navire a coulé\n")
+			if grid[x][y] in your_emos:
+				count_your_emos +=1
+	if count_your_emos == 0:
+		print("\nDéfaite ! Votre dernier navire a coulé 🥴\n")
 		return 'bye'
 	else:
 		pass
@@ -343,8 +345,8 @@ def algo_player(grid):
 			elif grid[x][y] == cold_shot:
 				count_miss +=1
 
-	print(f"{count_strike} strike found !\n")
-	print(f"{count_miss} cold shots found !\n")
+	# print(f"{count_strike} strike found !\n")
+	# print(f"{count_miss} cold shots found !\n")
 
 	while True:	
 		if count_strike > 0:
@@ -357,155 +359,160 @@ def algo_player(grid):
 
 									if (grid[x+1][y] != cold_shot):
 										# print("here first strike !")
-										if grid[x+1][y] == algo_ships[bato[-1]]['emo']:
+										if grid[x+1][y] == ships[bato[-1]]['emo']:
 											bato.append(bato[-1])
 											coord_strike.append([x+1, y])
 											grid[x+1][y] = strike_emo
 											print_grid(grid)
-											print("touché en bas")
+											print("Touché en bas 😧")
 											# cas torpilleur size 2
 											if bato[-1] == 't':
-												if len(coord_strike) == algo_ships[bato[-1]]['size']:
-													for i in range(algo_ships[bato[-1]]['size']):
+												if len(coord_strike) == ships[bato[-1]]['size']:
+													for i in range(ships[bato[-1]]['size']):
 														grid[x+1-i][y] = sunk_emo
+													time.sleep(1.5)
 													print_grid(grid)
-													print(f"Votre {algo_ships[bato[-1]]['name']} est coulé")
+													print(f"Votre {ships[bato[-1]]['name']} est coulé 😵")
 													if check_your_defeat(grid) == 'bye':
 														return 'end'
 													return grid
 											return grid
 										
-										elif grid[x+1][y] not in algo_ships[bato[-1]]['emo']:
+										elif grid[x+1][y] not in ships[bato[-1]]['emo']:
 											grid[x+1][y] = cold_shot
 											print_grid(grid)
-											print("Trop bas Hahaha ! Enfin c'est pas passé loin")
+											print("Trop bas Hahaha ! Enfin c'est pas passé loin 😬")
 											return grid
 
 									#vert check
 									if (grid[x+1][y] == cold_shot) and (grid[x-1][y] != cold_shot):
-										print("vert check 1 !")
-										if grid[x-1][y] == algo_ships[bato[-1]]['emo']:
+										# print("vert check 1 !")
+										if grid[x-1][y] == ships[bato[-1]]['emo']:
 											coord_strike.append([x-1, y])
 											grid[x-1][y] = strike_emo
 											print_grid(grid)
-											print("touché en haut")
+											print("Touché en haut 🤕")
 
 											# cas torpilleur size 2
 											if bato[-1] == 't':
-												print("vert check 1 torpilleur")
-												print("bato:", bato)
-												print("coord_strike:", coord_strike)
-												if len(coord_strike) == algo_ships[bato[-1]]['size']:
-													print("bato:", bato)
-													print("coord_strike:", coord_strike)
-													for i in range(algo_ships[bato[-1]]['size']):
+												# print("vert check 1 torpilleur")
+												# print("bato:", bato)
+												# print("coord_strike:", coord_strike)
+												if len(coord_strike) == ships[bato[-1]]['size']:
+													# print("bato:", bato)
+													# print("coord_strike:", coord_strike)
+													for i in range(ships[bato[-1]]['size']):
 														grid[x-1+i][y] = sunk_emo
+													time.sleep(1.5)
 													print_grid(grid)
-													print(f"Votre {algo_ships[bato[-1]]['name']} est coulé")
+													print(f"Votre {ships[bato[-1]]['name']} est coulé 😵")
 													if check_your_defeat(grid) == 'bye':
 														return 'end'
 													return grid
 											return grid
 
-										if grid[x-1][y] not in algo_ships[bato[-1]]['emo']:
+										if grid[x-1][y] not in ships[bato[-1]]['emo']:
 											grid[x-1][y] = cold_shot
 											print_grid(grid)
-											print("Juste au dessus, vous avez eu chaud !")
-											print("bato:", bato)
-											print("coord_strike:", coord_strike)
+											print("Juste au dessus, vous avez eu chaud ! 😮")
+											# print("bato:", bato)
+											# print("coord_strike:", coord_strike)
 											return grid
 
 									elif (grid[x+1][y] != cold_shot) and (grid[x-1][y] == cold_shot):
-										print("vert check 2 !")
-										if grid[x+1][y] == algo_ships[bato[-1]]['emo']:
+										# print("vert check 2 !")
+										if grid[x+1][y] == ships[bato[-1]]['emo']:
 											coord_strike.append([x+1, y])
 											grid[x+1][y] = strike_emo
 											print_grid(grid)
-											print("touché en bas")
+											print("Touché en bas 😧")
 
 											# cas torpilleur size 2
 											if bato[-1] == 't':
-												if len(coord_strike) == algo_ships[bato[-1]]['size']:
-													print("bato:", bato)
-													print("coord_strike:", coord_strike)
-													for i in range(algo_ships[bato[-1]]['size']):
+												if len(coord_strike) == ships[bato[-1]]['size']:
+													# print("bato:", bato)
+													# print("coord_strike:", coord_strike)
+													for i in range(ships[bato[-1]]['size']):
 														grid[x+1-i][y] = sunk_emo
+													time.sleep(1.5)
 													print_grid(grid)
-													print(f"Votre {algo_ships[bato[-1]]['name']} est coulé")
+													print(f"Votre {ships[bato[-1]]['name']} est coulé 😵")
 													if check_your_defeat(grid) == 'bye':
 														return 'end'
 													return grid
 											return grid
 
-										if grid[x+1][y] not in algo_ships[bato[-1]]['emo']:
+										if grid[x+1][y] not in ships[bato[-1]]['emo']:
 											grid[x+1][y] = cold_shot
 											print_grid(grid)
-											print("Trop bas Hahaha ! Enfin c'est pas passé loin")
-											print("bato:", bato)
-											print("coord_strike:", coord_strike)
+											print("Trop bas Hahaha ! Enfin c'est pas passé loin 😬")
+											# print("bato:", bato)
+											# print("coord_strike:", coord_strike)
 											return grid
 
 									# hor check
 									elif (grid[x+1][y] == cold_shot) and (grid[x-1][y] == cold_shot):
-											print("hor check 1 !")
-											if grid[x][y-1] == algo_ships[bato[-1]]['emo']:
+											# print("hor check 1 !")
+											if grid[x][y-1] == ships[bato[-1]]['emo']:
 												coord_strike.append([x, y-1])
 												grid[x][y-1] = strike_emo
 												print_grid(grid)
-												print("touché à gauche")
+												print("Touché à gauche 😰")
 
 												# cas torpilleur size 2
 												if bato[-1] == 't':
-													print("bato:", bato)
-													print("coord_strike:", coord_strike)
-													if len(coord_strike) == algo_ships[bato[-1]]['size']:
-														print("bato:", bato)
-														print("coord_strike:", coord_strike)
-														for i in range(algo_ships[bato[-1]]['size']):
+													# print("bato:", bato)
+													# print("coord_strike:", coord_strike)
+													if len(coord_strike) == ships[bato[-1]]['size']:
+														# print("bato:", bato)
+														# print("coord_strike:", coord_strike)
+														for i in range(ships[bato[-1]]['size']):
 															grid[x][y-1+i] = sunk_emo
+														time.sleep(1.5)
 														print_grid(grid)
-														print(f"Votre {algo_ships[bato[-1]]['name']} est coulé")
+														print(f"Votre {ships[bato[-1]]['name']} est coulé 😵")
 														if check_your_defeat(grid) == 'bye':
 															return 'end'
 														return grid
 												return grid
 
-											if grid[x][y-1] not in [algo_ships[bato[-1]]['emo'], cold_shot]:
+											if grid[x][y-1] not in [ships[bato[-1]]['emo'], cold_shot]:
 												grid[x][y-1] = cold_shot
 												print_grid(grid)
 												print("Trop à gauche ! La chance est avec vous")
-												print("bato:", bato)
-												print("coord_strike:", coord_strike)
+												# print("bato:", bato)
+												# print("coord_strike:", coord_strike)
 												return grid
 
 											if (grid[x][y-1] == cold_shot) and (grid[x][y+1] != cold_shot):
-												print("hor check 2 !")
-												if grid[x][y+1] == algo_ships[bato[-1]]['emo']:
+												# print("hor check 2 !")
+												if grid[x][y+1] == ships[bato[-1]]['emo']:
 													coord_strike.append([x, y+1])
 													grid[x][y+1] = strike_emo
 													print_grid(grid)
-													print("touché à droite")
+													print("Touché à droite 😨")
 
 													# cas torpilleur size 2
 													if bato[-1] == 't':
-														print("bato:", bato)
-														print("coord_strike:", coord_strike)
-														if len(coord_strike) == algo_ships[bato[-1]]['size']:
-															for i in range(algo_ships[bato[-1]]['size']):
+														# print("bato:", bato)
+														# print("coord_strike:", coord_strike)
+														if len(coord_strike) == ships[bato[-1]]['size']:
+															for i in range(ships[bato[-1]]['size']):
 																grid[x][y+1-i] = sunk_emo
+															time.sleep(1.5)
 															print_grid(grid)
-															print(f"Votre {algo_ships[bato[-1]]['name']} est coulé")
+															print(f"Votre {ships[bato[-1]]['name']} est coulé 😵")
 															if check_your_defeat(grid) == 'bye':
 																return 'end'
 															return grid
 													return grid
 
-												if grid[x][y+1] not in [algo_ships[bato[-1]]['emo'], cold_shot]:
+												if grid[x][y+1] not in [ships[bato[-1]]['emo'], cold_shot]:
 													grid[x][y+1] = cold_shot
 													print_grid(grid)
 													print("Manqué, trop à droite cette fois !")
-													print("bato:", bato)
-													print("coord_strike:", coord_strike)
+													# print("bato:", bato)
+													# print("coord_strike:", coord_strike)
 													return grid
 						
 						# 2 strikes at least, direction found
@@ -515,33 +522,34 @@ def algo_player(grid):
 							# print("row:", row)
 							# print("col:", col)
 							if (grid[row+1][col] == strike_emo) and (grid[row-1][col] not in [strike_emo, cold_shot]):
-								if grid[row-1][col] == algo_ships[bato[-1]]['emo']:
+								if grid[row-1][col] == ships[bato[-1]]['emo']:
 									grid[row-1][col] = strike_emo
 									coord_strike.append([row-1, col])
 									print_grid(grid)
-									print("touché en haut")
-									print("bato:", bato)
-									print("coord_strike:", coord_strike)
+									print("Touché en haut 🤕")
+									# print("bato:", bato)
+									# print("coord_strike:", coord_strike)
 
 									# sunk check
-									if len(coord_strike) == algo_ships[bato[-1]]['size']:
-										for i in range(algo_ships[bato[-1]]['size']):
+									if len(coord_strike) == ships[bato[-1]]['size']:
+										for i in range(ships[bato[-1]]['size']):
 											grid[row-1+i][col] = sunk_emo
+										time.sleep(1.5)
 										print_grid(grid)
-										print(f"Votre {algo_ships[bato[-1]]['name']} est coulé")
+										print(f"Votre {ships[bato[-1]]['name']} est coulé 😵")
 										if check_your_defeat(grid) == 'bye':
 											return 'end'
 										return grid
 									return grid
 								else:
 									grid[row-1][col] = cold_shot
-									print("coord_strike:", coord_strike)
 
-									if len(coord_strike) == algo_ships[bato[-1]]['size']:
-										for i in range(algo_ships[bato[-1]]['size']):
+									if len(coord_strike) == ships[bato[-1]]['size']:
+										for i in range(ships[bato[-1]]['size']):
 											grid[row+i][col] = sunk_emo
+										time.sleep(1.5)
 										print_grid(grid)
-										print(f"Votre {algo_ships[bato[-1]]['name']} est coulé")
+										print(f"Votre {ships[bato[-1]]['name']} est coulé 😵")
 										if check_your_defeat(grid) == 'bye':
 											return 'end'
 										return grid
@@ -549,42 +557,43 @@ def algo_player(grid):
 									else:
 										row = coord_strike[::-1][-1][0]
 										col = coord_strike[::-1][-1][1]
-										print("back_to:", row, col)
+										# print("back_to:", row, col)
 
 									print_grid(grid)
-									print("Juste au dessus, vous avez eu chaud !")
-									print("bato:", bato)
-									print("coord_strike:", coord_strike)
+									print("Juste au dessus, vous avez eu chaud ! 😮")
+									# print("bato:", bato)
+									# print("coord_strike:", coord_strike)
 									return grid
 
 							elif (grid[row-1][col] == strike_emo) and (grid[row+1][col] not in [strike_emo, cold_shot]):
-								if grid[row+1][col] == algo_ships[bato[-1]]['emo']:
+								if grid[row+1][col] == ships[bato[-1]]['emo']:
 									grid[row+1][col] = strike_emo
 									coord_strike.append([row+1, col])
 									print_grid(grid)
-									print("touché en bas")
-									print("bato:", bato)
-									print("coord_strike:", coord_strike)
+									print("Touché en bas 😧")
+									# print("bato:", bato)
+									# print("coord_strike:", coord_strike)
 
 									# sunk check
-									if len(coord_strike) == algo_ships[bato[-1]]['size']:
-										for i in range(algo_ships[bato[-1]]['size']):
+									if len(coord_strike) == ships[bato[-1]]['size']:
+										for i in range(ships[bato[-1]]['size']):
 											grid[row+1-i][col] = sunk_emo
+										time.sleep(1.5)
 										print_grid(grid)
-										print(f"Votre {algo_ships[bato[-1]]['name']} est coulé")
+										print(f"Votre {ships[bato[-1]]['name']} est coulé 😵")
 										if check_your_defeat(grid) == 'bye':
 											return 'end'
 										return grid
 									return grid
 								else:
 									grid[row+1][col] = cold_shot
-									print("coord_strike:", coord_strike)
 									
-									if len(coord_strike) == algo_ships[bato[-1]]['size']:
-										for i in range(algo_ships[bato[-1]]['size']):
+									if len(coord_strike) == ships[bato[-1]]['size']:
+										for i in range(ships[bato[-1]]['size']):
 											grid[row+i][col] = sunk_emo
+										time.sleep(1.5)
 										print_grid(grid)
-										print(f"Votre {algo_ships[bato[-1]]['name']} est coulé")
+										print(f"Votre {ships[bato[-1]]['name']} est coulé 😵")
 										if check_your_defeat(grid) == 'bye':
 											return 'end'
 										return grid
@@ -592,68 +601,70 @@ def algo_player(grid):
 									else:
 										row = coord_strike[::-1][-1][0]
 										col = coord_strike[::-1][-1][1]
-										print("back_to:", row, col)
+										# print("back_to:", row, col)
 									
 									print_grid(grid)
-									print("Trop bas Hahaha ! Enfin c'est pas passé loin")
-									print("bato:", bato)
-									print("coord_strike:", coord_strike)
+									print("Trop bas Hahaha ! Enfin c'est pas passé loin 😬")
+									# print("bato:", bato)
+									# print("coord_strike:", coord_strike)
 									return grid
 
 							elif (grid[row-1][col] == strike_emo) and (grid[row+1][col] ==  cold_shot):
 								row = coord_strike[::-1][-1][0]
 								col = coord_strike[::-1][-1][1]
-								if grid[row-1][col] == algo_ships[bato[-1]]['emo']:
+								if grid[row-1][col] == ships[bato[-1]]['emo']:
 									grid[row-1][col] = strike_emo
 									coord_strike.append([row-1, col])
 									print_grid(grid)
-									print("touché en haut")
-									print("bato:", bato)
-									print("coord_strike:", coord_strike)
+									print("Touché en haut 🤕")
+									# print("bato:", bato)
+									# print("coord_strike:", coord_strike)
 
-									if len(coord_strike) == algo_ships[bato[-1]]['size']:
-										for i in range(algo_ships[bato[-1]]['size']):
+									if len(coord_strike) == ships[bato[-1]]['size']:
+										for i in range(ships[bato[-1]]['size']):
 											grid[row-1+i][col] = sunk_emo
+										time.sleep(1.5)
 										print_grid(grid)
-										print(f"Votre {algo_ships[bato[-1]]['name']} est coulé")
+										print(f"Votre {ships[bato[-1]]['name']} est coulé 😵")
 										if check_your_defeat(grid) == 'bye':
 											return 'end'
 										return grid
 									return grid
 								else:
 									grid[row-1][col] = cold_shot
-									print("coord_strike:", coord_strike)
 
-									if len(coord_strike) == algo_ships[bato[-1]]['size']:
-										for i in range(algo_ships[bato[-1]]['size']):
+									if len(coord_strike) == ships[bato[-1]]['size']:
+										for i in range(ships[bato[-1]]['size']):
 											grid[row+i][col] = sunk_emo
+										time.sleep(1.5)
 										print_grid(grid)
-										print(f"Votre {algo_ships[bato[-1]]['name']} est coulé")
+										print(f"Votre {ships[bato[-1]]['name']} est coulé 😵")
 										if check_your_defeat(grid) == 'bye':
 											return 'end'
 										return grid
 
-									print("Juste au dessus, vous avez eu chaud !")
-									print("bato:", bato)
-									print("coord_strike:", coord_strike)
+									print("Juste au dessus, vous avez eu chaud ! 😮")
+									# print("bato:", bato)
+									# print("coord_strike:", coord_strike)
 									return grid
 
 
 							elif (grid[row][col-1] == strike_emo) and (grid[row][col+1] not in [strike_emo, cold_shot]):
-								if grid[row][col+1] == algo_ships[bato[-1]]['emo']:
+								if grid[row][col+1] == ships[bato[-1]]['emo']:
 									coord_strike.append([row, col+1])
 									grid[row][col+1] = strike_emo
 									print_grid(grid)
-									print("touché à droite")
-									print("bato:", bato)
-									print("coord_strike:", coord_strike)
+									print("Touché à droite 😨")
+									# print("bato:", bato)
+									# print("coord_strike:", coord_strike)
 
 									# sunk check
-									if len(coord_strike) == algo_ships[bato[-1]]['size']:
-										for i in range(algo_ships[bato[-1]]['size']):
+									if len(coord_strike) == ships[bato[-1]]['size']:
+										for i in range(ships[bato[-1]]['size']):
 											grid[row][col+1-i] = sunk_emo
+										time.sleep(1.5)
 										print_grid(grid)
-										print(f"Votre {algo_ships[bato[-1]]['name']} est coulé")
+										print(f"Votre {ships[bato[-1]]['name']} est coulé 😵")
 										if check_your_defeat(grid) == 'bye':
 											return 'end'
 										return grid
@@ -661,12 +672,13 @@ def algo_player(grid):
 
 								else:
 									grid[row][col+1] = cold_shot
-									print("coord_strike:", coord_strike)
-									if len(coord_strike) == algo_ships[bato[-1]]['size']:
-										for i in range(algo_ships[bato[-1]]['size']):
+
+									if len(coord_strike) == ships[bato[-1]]['size']:
+										for i in range(ships[bato[-1]]['size']):
 											grid[row+i][col] = sunk_emo
+										time.sleep(1.5)
 										print_grid(grid)
-										print(f"Votre {algo_ships[bato[-1]]['name']} est coulé")
+										print(f"Votre {ships[bato[-1]]['name']} est coulé 😵")
 										if check_your_defeat(grid) == 'bye':
 											return 'end'
 										return grid
@@ -674,42 +686,43 @@ def algo_player(grid):
 									else:
 										row = coord_strike[::-1][-1][0]
 										col = coord_strike[::-1][-1][1]
-										print("back_to:", row, col)
+										# print("back_to:", row, col)
 
 									print_grid(grid)
 									print("Manqué, trop à droite !")
-									print("bato:", bato)
-									print("coord_strike:", coord_strike)
+									# print("bato:", bato)
+									# print("coord_strike:", coord_strike)
 									return grid
 							
 							elif (grid[row][col+1] == strike_emo) and (grid[row][col-1] not in [strike_emo, cold_shot]):
-								if grid[row][col-1] == algo_ships[bato[-1]]['emo']:
+								if grid[row][col-1] == ships[bato[-1]]['emo']:
 									coord_strike.append([row, col-1])
 									grid[row][col-1] = strike_emo
 									print_grid(grid)
-									print("touché à gauche")
-									print("bato:", bato)
-									print("coord_strike:", coord_strike)
+									print("Touché à gauche 😰")
+									# print("bato:", bato)
+									# print("coord_strike:", coord_strike)
 
 									# sunk check
-									if len(coord_strike) == algo_ships[bato[-1]]['size']:
-										for i in range(algo_ships[bato[-1]]['size']):
+									if len(coord_strike) == ships[bato[-1]]['size']:
+										for i in range(ships[bato[-1]]['size']):
 											grid[row][col-1+i] = sunk_emo
+										time.sleep(1.5)
 										print_grid(grid)
-										print(f"Votre {algo_ships[bato[-1]]['name']} est coulé")
+										print(f"Votre {ships[bato[-1]]['name']} est coulé 😵")
 										if check_your_defeat(grid) == 'bye':
 											return 'end'
 										return grid
 									return grid
 								else:
 									grid[row][col-1] = cold_shot
-									print("coord_strike:", coord_strike)
 
-									if len(coord_strike) == algo_ships[bato[-1]]['size']:
-										for i in range(algo_ships[bato[-1]]['size']):
+									if len(coord_strike) == ships[bato[-1]]['size']:
+										for i in range(ships[bato[-1]]['size']):
 											grid[row+i][col] = sunk_emo
+										time.sleep(1.5)
 										print_grid(grid)
-										print(f"Votre {algo_ships[bato[-1]]['name']} est coulé")
+										print(f"Votre {ships[bato[-1]]['name']} est coulé 😵")
 										if check_your_defeat(grid) == 'bye':
 											return 'end'
 										return grid
@@ -717,50 +730,51 @@ def algo_player(grid):
 									else:
 										row = coord_strike[::-1][-1][0]
 										col = coord_strike[::-1][-1][1]
-										print("back_to:", row, col)
+										# print("back_to:", row, col)
 
 									print_grid(grid)
 									print("Trop à gauche ! La chance est avec vous")
-									print("bato:", bato)
-									print("coord_strike:", coord_strike)
+									# print("bato:", bato)
+									# print("coord_strike:", coord_strike)
 									return grid
 
 							elif (grid[row][col+1] == strike_emo) and (grid[row][col-1] == cold_shot):
 								row = coord_strike[::-1][-1][0]
 								col = coord_strike[::-1][-1][1]
-								if grid[row][col+1] == algo_ships[bato[-1]]['emo']:
+								if grid[row][col+1] == ships[bato[-1]]['emo']:
 									coord_strike.append([row, col+1])
 									grid[row][col+1] = strike_emo
 									print_grid(grid)
-									print("touché à droite")
-									print("bato:", bato)
-									print("coord_strike:", coord_strike)
-									if len(coord_strike) == algo_ships[bato[-1]]['size']:
-										for i in range(algo_ships[bato[-1]]['size']):
+									print("Touché à droite 😨")
+									# print("bato:", bato)
+									# print("coord_strike:", coord_strike)
+									if len(coord_strike) == ships[bato[-1]]['size']:
+										for i in range(ships[bato[-1]]['size']):
 											grid[row][col+1-i] = sunk_emo
+										time.sleep(1.5)
 										print_grid(grid)
-										print(f"Votre {algo_ships[bato[-1]]['name']} est coulé")
+										print(f"Votre {ships[bato[-1]]['name']} est coulé 😵")
 										if check_your_defeat(grid) == 'bye':
 											return 'end'
 										return grid
 									return grid
 								else:
 									grid[row][col+1] = cold_shot
-									print("coord_strike:", coord_strike)
 
-									if len(coord_strike) == algo_ships[bato[-1]]['size']:
-										for i in range(algo_ships[bato[-1]]['size']):
+									if len(coord_strike) == ships[bato[-1]]['size']:
+										for i in range(ships[bato[-1]]['size']):
 											grid[row][col-i] = sunk_emo
+										time.sleep(1.5)
 										print_grid(grid)
-										print(f"Votre {algo_ships[bato[-1]]['name']} est coulé")
+										print(f"Votre {ships[bato[-1]]['name']} est coulé 😵")
 										if check_your_defeat(grid) == 'bye':
 											return 'end'
 										return grid
 									
 									print_grid(grid)
 									print("Manqué, trop à droite !")
-									print("bato:", bato)
-									print("coord_strike:", coord_strike)
+									# print("bato:", bato)
+									# print("coord_strike:", coord_strike)
 									return grid
 
 	
@@ -775,42 +789,44 @@ def algo_player(grid):
 				print("Ouf! c'est Manqué")
 				return grid
 			else:
-				for k, v in algo_ships.items():
-					if grid[random_row][random_col] == algo_ships[k]['emo']:
+				for k, v in ships.items():
+					if grid[random_row][random_col] == ships[k]['emo']:
 						bato.append(k)
 						coord_strike.append([random_row, random_col])
 						grid[random_row][random_col] = strike_emo
 						print_grid(grid)
-						print(f"Votre {ships[k]['name']} est touché")
-						print("bato:", bato)
-						print("coord_strike:", coord_strike)
+						print(f"Aïe ! Votre {ships[k]['name']} est touché 😬")
+						# print("bato:", bato)
+						# print("coord_strike:", coord_strike)
 						return grid
 						
 
 
 def game():
-	# grid = make_grid()
 	grid = make_grid()
 	grid_algo = make_opponent_grid()
 	grid_attack = make_grid()
-	# print_grid(grid)
-	# place_your_ships(grid)
-	print('\n')
-	# print_grid(grid_algo)
+
+	print(warship_pic)
+	print(title)
+	print_grid(grid)
+	place_your_ships(grid)
+	print_grid(grid_attack)
 	while True:
-		print_grid(grid_algo)
+		# print_grid(grid_algo)
 		print('\n')
 		grid_attack = you_play(grid_algo, grid_attack)
 		if grid_attack == 'end':
+			print("La grille de votre adversaire était la suivante:")
+			print_grid(grid_algo)
+			print('\n')
 			break
-		# grid = algo_player(grid)
-		# if grid == 'end':
-		# 	break
-		# print_grid(grid)
-	# place_your_ships(grid)
-	# print('\n')
-	# print("Votre grille est prête")
+		grid = algo_player(grid)
+		if grid == 'end':
+			print("La grille de votre adversaire était la suivante:")
+			print_grid(grid_algo)
+			print('\n')
+			break
 
 
 game()
-# make_opponent_grid()
