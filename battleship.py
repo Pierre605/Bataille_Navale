@@ -164,6 +164,7 @@ def place_your_ships(grid):
 			SHIPS.append(input_ship)
 
 		print_grid(grid)
+		print("\nVotre grille est prête\n\n\nVotre grille d'attaque:")
 
 def make_opponent_grid():
 	grid_algo = make_grid()
@@ -785,13 +786,30 @@ def game():
 			print("La grille de votre adversaire était la suivante:")
 			print_grid(grid_algo)
 			print('\n')
-			break
+			
+			while True:
+				input_play_again = input("Voulez-vous jouer une autre partie ? 'o' oui, 'n' non: ")
+				if input_play_again == 'o':
+					return game()
+				elif input_play_again == 'n':
+					print("Au revoir...\n")
+					return ''
+				print("⚠️ Erreur! ('o' oui, 'n' non)")
+		
 		grid = algo_player(grid)
 		if grid == 'end':
 			print("La grille de votre adversaire était la suivante:")
 			print_grid(grid_algo)
 			print('\n')
-			break
+			
+			while True:
+				input_play_again = input("Voulez-vous jouer une autre partie ? 'o' oui, 'n' non: ")
+				if input_play_again == 'o':
+					return game()
+				elif input_play_again == 'n':
+					print("Au revoir...\n")
+					return ''
+				print("⚠️ Erreur! ('o' oui, 'n' non)")
 
 
 game()
