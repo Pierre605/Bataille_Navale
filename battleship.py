@@ -164,7 +164,7 @@ def place_your_ships(grid):
 			SHIPS.append(input_ship)
 
 		print_grid(grid)
-		print("\nVotre grille est prête\n\n\nVotre grille d'attaque:")
+	print("\nVotre grille est prête\n\n\nVotre grille d'attaque:")
 
 def make_opponent_grid():
 	grid_algo = make_grid()
